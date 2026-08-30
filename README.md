@@ -16,8 +16,6 @@
       --primary-hover: #0ea5e9;
       --primary-glow: rgba(56, 189, 248, 0.15);
       --success: #10b981;
-      --success-hover: #059669;
-      --danger: #ef4444;
       --text-main: #f1f5f9;
       --text-muted: #94a3b8;
       --btn-secondary: rgba(255, 255, 255, 0.06);
@@ -34,11 +32,13 @@
       font-family: 'Inter', 'Noto Sans Bengali', 'Segoe UI', sans-serif;
       background-color: var(--bg-main);
       color: var(--text-main);
-      min-height: 100vh;
-      padding: 20px;
+      height: 100vh;
+      height: 100dvh;
+      padding: 12px;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
+      align-items: center;
+      overflow: hidden;
       background-image: 
         radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.05) 0%, transparent 40%),
         radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.04) 0%, transparent 40%);
@@ -46,10 +46,11 @@
 
     .container {
       width: 100%;
-      max-width: 1350px;
+      max-width: 1400px;
+      height: 100%;
       display: grid;
-      grid-template-columns: 1fr 380px;
-      gap: 20px;
+      grid-template-columns: 1fr 340px;
+      gap: 12px;
       align-items: stretch;
     }
 
@@ -59,13 +60,14 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 20px;
+      border-radius: 14px;
+      padding: 14px;
       box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 10px;
       height: 100%;
+      min-height: 0;
     }
 
     /* Header */
@@ -74,56 +76,53 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px;
-      padding-bottom: 8px;
+      gap: 8px;
+      padding-bottom: 6px;
       border-bottom: 1px solid var(--card-border);
     }
 
     .logo-badge {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .logo-icon {
-      width: 36px;
-      height: 36px;
+      width: 30px;
+      height: 30px;
       background: linear-gradient(135deg, #38bdf8 0%, #6366f1 100%);
-      border-radius: 10px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
-      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+      font-size: 1.1rem;
     }
 
     h1 {
-      font-size: 1.15rem;
+      font-size: 1rem;
       font-weight: 700;
       color: #fff;
-      letter-spacing: -0.01em;
     }
 
     .toolbar {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
     }
 
-    /* Modern Buttons */
+    /* Buttons */
     .btn {
       font-family: inherit;
       border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
+      padding: 6px 12px;
+      border-radius: 6px;
       font-weight: 600;
       cursor: pointer;
-      font-size: 0.86rem;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 0.82rem;
+      transition: all 0.2s;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      letter-spacing: 0.01em;
+      gap: 5px;
     }
 
     .btn:active {
@@ -133,23 +132,11 @@
     .btn-mcq {
       background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
       color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
-    }
-    .btn-mcq:hover {
-      background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
-      box-shadow: 0 6px 16px rgba(2, 132, 199, 0.4);
     }
 
     .btn-save {
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
-    }
-    .btn-save:hover {
-      background: linear-gradient(135deg, #059669 0%, #047857 100%);
-      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
     }
 
     .btn-secondary {
@@ -157,15 +144,10 @@
       color: var(--text-main);
       border: 1px solid var(--card-border);
     }
-    .btn-secondary:hover {
-      background: var(--btn-secondary-hover);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
 
     .btn-danger-hover:hover {
-      background: rgba(239, 68, 68, 0.15);
+      background: rgba(239, 68, 68, 0.2);
       color: #f87171;
-      border-color: rgba(239, 68, 68, 0.3);
     }
 
     /* Editor */
@@ -173,47 +155,39 @@
       position: relative;
       width: 100%;
       flex: 1;
+      min-height: 0;
       display: flex;
     }
 
     textarea {
       width: 100%;
-      min-height: 520px;
       height: 100%;
       background: #060911;
       color: #f8fafc;
       border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 16px;
-      font-size: 1.08rem;
-      line-height: 1.75;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 1rem;
+      line-height: 1.6;
       font-family: 'Inter', 'Noto Sans Bengali', 'Cambria Math', 'Segoe UI Symbol', sans-serif;
-      resize: vertical;
+      resize: none;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: border-color 0.2s;
     }
 
     textarea:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-glow);
+      box-shadow: 0 0 0 2px var(--primary-glow);
     }
 
-    textarea::placeholder {
-      color: #475569;
-      font-weight: 400;
-    }
-
-    /* Custom Scrollbar */
+    /* Scrollbars */
     textarea::-webkit-scrollbar, .symbol-grid::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
     }
     textarea::-webkit-scrollbar-thumb, .symbol-grid::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 10px;
-    }
-    textarea::-webkit-scrollbar-track, .symbol-grid::-webkit-scrollbar-track {
-      background: transparent;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 8px;
     }
 
     /* Status Bar */
@@ -221,37 +195,34 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
-      padding: 0 4px;
     }
 
     .status-pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       background: rgba(16, 185, 129, 0.1);
       color: #34d399;
-      padding: 4px 10px;
-      border-radius: 20px;
-      border: 1px solid rgba(16, 185, 129, 0.2);
+      padding: 2px 8px;
+      border-radius: 12px;
     }
 
     .dot {
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
       background: #10b981;
       border-radius: 50%;
-      box-shadow: 0 0 8px #10b981;
     }
 
     /* Tabs */
     .tabs {
       display: flex;
-      gap: 4px;
+      gap: 3px;
       background: rgba(0, 0, 0, 0.3);
-      padding: 4px;
-      border-radius: 10px;
+      padding: 3px;
+      border-radius: 8px;
       border: 1px solid var(--card-border);
       overflow-x: auto;
     }
@@ -261,82 +232,70 @@
       background: transparent;
       border: none;
       color: var(--text-muted);
-      padding: 7px 10px;
-      border-radius: 7px;
+      padding: 6px 4px;
+      border-radius: 6px;
       cursor: pointer;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       font-weight: 600;
       white-space: nowrap;
-      transition: all 0.2s ease;
       text-align: center;
     }
 
-    .tab-btn:hover {
-      color: #fff;
-    }
-
     .tab-btn.active {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.12);
       color: var(--primary);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     /* Keyboard Grid */
     .symbol-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
-      gap: 6px;
+      grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
+      gap: 5px;
       flex: 1;
-      min-height: 480px;
-      max-height: 520px;
+      min-height: 0;
       overflow-y: auto;
-      padding: 2px;
       align-content: start;
+      padding-right: 2px;
     }
 
     .sym-btn {
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.06);
       color: #e2e8f0;
-      font-size: 1.15rem;
-      padding: 10px 4px;
-      border-radius: 8px;
+      font-size: 1.05rem;
+      padding: 8px 2px;
+      border-radius: 6px;
       cursor: pointer;
       font-family: 'Cambria Math', 'Segoe UI Symbol', 'Noto Sans Bengali', sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .sym-btn:hover {
       background: var(--primary);
       color: #090d16;
       border-color: var(--primary);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
       font-weight: bold;
     }
 
-    .sym-btn:active {
-      transform: scale(0.94);
-    }
-
-    /* Mobile / Portrait Responsiveness */
-    @media (max-width: 900px) {
-      .container { 
-        grid-template-columns: 1fr; 
+    /* শুধুমাত্র খাড়া স্ক্রিন (Portrait Mode)-এ নিচে নিচে নামবে */
+    @media (orientation: portrait) and (max-width: 650px) {
+      body {
+        height: auto;
+        overflow-y: auto;
       }
-      body { 
-        padding: 12px; 
+      .container {
+        height: auto;
+        grid-template-columns: 1fr;
       }
-      textarea {
-        min-height: 380px;
-        height: 380px;
+      .editor-wrapper {
+        min-height: 360px;
+        height: 360px;
       }
       .symbol-grid {
-        min-height: auto;
-        max-height: 320px;
+        min-height: 240px;
+        max-height: 260px;
       }
     }
   </style>
@@ -344,7 +303,7 @@
 <body>
 
 <div class="container">
-  <!-- Left Panel: Question Editor -->
+  <!-- Left Panel -->
   <div class="glass-panel">
     <div class="header">
       <div class="logo-badge">
@@ -352,18 +311,10 @@
         <h1>Physics Question Maker</h1>
       </div>
       <div class="toolbar">
-        <button class="btn btn-mcq" onclick="insertMCQ()">
-          <span>➕</span> + MCQ
-        </button>
-        <button class="btn btn-save" onclick="saveToDevice()">
-          <span>💾</span> সেভ করুন
-        </button>
-        <button class="btn btn-secondary" onclick="copyText()">
-          <span>📋</span> কপি
-        </button>
-        <button class="btn btn-secondary btn-danger-hover" onclick="clearText()">
-          <span>🗑️</span> মুছুন
-        </button>
+        <button class="btn btn-mcq" onclick="insertMCQ()"><span>➕</span> + MCQ</button>
+        <button class="btn btn-save" onclick="saveToDevice()"><span>💾</span> সেভ</button>
+        <button class="btn btn-secondary" onclick="copyText()"><span>📋</span> কপি</button>
+        <button class="btn btn-secondary btn-danger-hover" onclick="clearText()"><span>🗑️</span> মুছুন</button>
       </div>
     </div>
     
@@ -376,11 +327,11 @@
         <div class="dot"></div>
         <span id="saveStatus">অটো-সেভ সক্রিয়</span>
       </div>
-      <span>কার্সরের স্থানে সিম্বল যুক্ত হবে</span>
+      <span>কার্সরের স্থানে সিম্বল বসবে</span>
     </div>
   </div>
 
-  <!-- Right Panel: Symbol Palette -->
+  <!-- Right Panel -->
   <div class="glass-panel">
     <div class="tabs">
       <button class="tab-btn active" onclick="switchTab('greek', this)">Greek</button>

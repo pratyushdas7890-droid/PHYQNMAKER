@@ -37,8 +37,8 @@
       min-height: 100vh;
       padding: 20px;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      justify-content: center;
+      align-items: flex-start;
       background-image: 
         radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.05) 0%, transparent 40%),
         radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.04) 0%, transparent 40%);
@@ -46,15 +46,11 @@
 
     .container {
       width: 100%;
-      max-width: 1300px;
+      max-width: 1350px;
       display: grid;
-      grid-template-columns: 1fr 360px;
+      grid-template-columns: 1fr 380px;
       gap: 20px;
-    }
-
-    @media (max-width: 950px) {
-      .container { grid-template-columns: 1fr; }
-      body { padding: 12px; }
+      align-items: stretch;
     }
 
     /* Glass Cards */
@@ -69,6 +65,7 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
+      height: 100%;
     }
 
     /* Header */
@@ -175,11 +172,14 @@
     .editor-wrapper {
       position: relative;
       width: 100%;
+      flex: 1;
+      display: flex;
     }
 
     textarea {
       width: 100%;
-      height: 500px;
+      min-height: 520px;
+      height: 100%;
       background: #060911;
       color: #f8fafc;
       border: 1px solid var(--card-border);
@@ -284,11 +284,14 @@
     /* Keyboard Grid */
     .symbol-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
       gap: 6px;
-      max-height: 465px;
+      flex: 1;
+      min-height: 480px;
+      max-height: 520px;
       overflow-y: auto;
       padding: 2px;
+      align-content: start;
     }
 
     .sym-btn {
@@ -318,11 +321,30 @@
     .sym-btn:active {
       transform: scale(0.94);
     }
+
+    /* Mobile / Portrait Responsiveness */
+    @media (max-width: 900px) {
+      .container { 
+        grid-template-columns: 1fr; 
+      }
+      body { 
+        padding: 12px; 
+      }
+      textarea {
+        min-height: 380px;
+        height: 380px;
+      }
+      .symbol-grid {
+        min-height: auto;
+        max-height: 320px;
+      }
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
+  <!-- Left Panel: Question Editor -->
   <div class="glass-panel">
     <div class="header">
       <div class="logo-badge">
@@ -358,6 +380,7 @@
     </div>
   </div>
 
+  <!-- Right Panel: Symbol Palette -->
   <div class="glass-panel">
     <div class="tabs">
       <button class="tab-btn active" onclick="switchTab('greek', this)">Greek</button>
@@ -428,7 +451,6 @@
     renderSymbols(cat);
   }
 
-  // কার্সর যেখানে আছে ঠিক সেখানেই চিহ্ন বসবে
   function insertSymbol(sym) {
     const start = editor.selectionStart;
     const end = editor.selectionEnd;
@@ -439,7 +461,6 @@
     localStorage.setItem('physics_draft_text', editor.value);
   }
 
-  // অটো-ইনক্রিমেন্ট নম্বর ক্যালকুলেশন
   function getNextQuestionNumber(text) {
     if (!text) return 1;
     const matches = [...text.matchAll(/(?:^|\n)\s*(\d+)\./g)];
@@ -448,7 +469,6 @@
     return nums.length > 0 ? Math.max(...nums) + 1 : 1;
   }
 
-  // নিচে ক্রমানুসারে নতুন ফাঁকা MCQ যুক্ত করা
   function insertMCQ() {
     const currentText = editor.value.trimEnd();
     const nextNum = getNextQuestionNumber(currentText);
@@ -460,7 +480,6 @@
     const newBlock = questionHead + optionsBlock;
     editor.value = currentText + newBlock;
     
-    // কার্সর সরাসরি নতুন প্রশ্নের নম্বরের ঠিক পাশে নিয়ে যাওয়া
     const targetCursorPos = currentText.length + questionHead.length;
     editor.selectionStart = editor.selectionEnd = targetCursorPos;
     editor.focus();
@@ -471,7 +490,6 @@
     saveStatus.innerText = 'ড্রাফট সেভ আছে';
   }
 
-  // Internal Storage Save
   async function saveToDevice() {
     const text = editor.value;
     if (!text.trim()) return alert('সেভ করার জন্য কোনো লেখা নেই!');

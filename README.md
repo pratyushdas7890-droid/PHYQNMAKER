@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Physics Exam Question Maker</title>
-  <!-- Google Fonts for Bengali & Math Clean Rendering -->
+  <!-- Google Fonts for Bengali & Symbols -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -57,18 +57,18 @@
     h1 { font-size: 1.2rem; color: var(--accent); }
     .toolbar {
       display: flex;
-      gap: 6px;
+      gap: 8px;
       flex-wrap: wrap;
     }
     .action-btn {
       background: var(--accent);
       color: #0f172a;
       border: none;
-      padding: 7px 12px;
+      padding: 8px 14px;
       border-radius: 6px;
       font-weight: 600;
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       transition: all 0.2s;
       display: inline-flex;
       align-items: center;
@@ -166,9 +166,8 @@
     <div class="header">
       <h1>⚛️ পদার্থবিজ্ঞান প্রশ্নপত্র সম্পাদক</h1>
       <div class="toolbar">
-        <button class="action-btn secondary" onclick="insertTpl('mcq')">+ MCQ</button>
+        <button class="action-btn secondary" onclick="insertMCQ()">+ MCQ</button>
         <button class="action-btn save-btn" onclick="saveToDevice()">💾 সেভ করুন</button>
-        <button class="action-btn secondary" onclick="downloadDoc()">📄 Word (.doc)</button>
         <button class="action-btn" onclick="copyText()">📋 কপি</button>
         <button class="action-btn secondary" onclick="clearText()">মুছুন</button>
       </div>
@@ -178,7 +177,7 @@
     
     <div class="status-bar">
       <span id="saveStatus">🟢 অটো-সেভ সক্রিয়</span>
-      <span>কার্সরের স্থানে চিহ্ন বা ტেমপ্লেট বসবে</span>
+      <span>কার্সরের স্থানে সিম্বল ইনসার্ট হবে</span>
     </div>
   </div>
 
@@ -253,6 +252,7 @@
     renderSymbols(cat);
   }
 
+  // কার্সর পয়েন্টে সিম্বল বসানো
   function insertSymbol(sym) {
     const start = editor.selectionStart;
     const end = editor.selectionEnd;
@@ -263,11 +263,39 @@
     localStorage.setItem('physics_draft_text', editor.value);
   }
 
-  // স্ট্যান্ডার্ড MCQ ইনসার্ট
-  function insertTpl(type) {
-    if (type === 'mcq') {
-      insertSymbol("\n1. [Write Question Here]\n   (A) Option 1        (B) Option 2\n   (C) Option 3        (D) Option 4\n");
-    }
+  // পরবর্তী ক্রমিক নম্বর গোনার ফাংশন
+  function getNextQuestionNumber(text) {
+    if (!text) return 1;
+    const matches = [...text.matchAll(/(?:^|\n)\s*(\d+)\./g)];
+    if (matches.length === 0) return 1;
+    const nums = matches.map(m => parseInt(m[1], 10)).filter(n => !isNaN(n));
+    return nums.length > 0 ? Math.max(...nums) + 1 : 1;
+  }
+
+  // ফিক্সড: সবসময় ডকুমেন্টের একদম নিচে নতুন প্রশ্ন যোগ হবে
+  function insertMCQ() {
+    const currentText = editor.value.trimEnd();
+    const nextNum = getNextQuestionNumber(currentText);
+    
+    // আগের লেখার সাথে পরিষ্কার ব্যবধান (spacing) রাখা
+    const prefix = currentText.length > 0 ? '\n\n' : '';
+    const questionHead = `${prefix}${nextNum}. `;
+    const optionsBlock = `\n   (A)                 (B) \n   (C)                 (D) `;
+    
+    // নতুন ব্লক তৈরি এবং নিচে যুক্ত করা
+    const newBlock = questionHead + optionsBlock;
+    editor.value = currentText + newBlock;
+    
+    // কার্সর সরাসরি নতুন প্রশ্নের নম্বরের ঠিক পাশে নিয়ে যাওয়া
+    const targetCursorPos = currentText.length + questionHead.length;
+    editor.selectionStart = editor.selectionEnd = targetCursorPos;
+    editor.focus();
+
+    // অটো-স্ক্রোল করে নিচে নিয়ে আসা
+    editor.scrollTop = editor.scrollHeight;
+
+    localStorage.setItem('physics_draft_text', editor.value);
+    saveStatus.innerText = '🟢 ড্রাফট সেভ করা আছে';
   }
 
   // Internal Storage Save
@@ -304,23 +332,6 @@
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     saveStatus.innerText = '✅ Downloaded!';
-  }
-
-  function downloadDoc() {
-    const text = editor.value;
-    if (!text.trim()) return alert('ফাইল খালি!');
-    const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
-                   "xmlns:w='urn:schemas-microsoft-com:office:word' "+
-                   "xmlns='http://www.w3.org/TR/REC-html40'>"+
-                   "<head><meta charset='utf-8'><style>body{font-family:'Cambria Math', 'Segoe UI', Arial; font-size:12pt;}</style></head><body><pre style='font-family:inherit; white-space:pre-wrap;'>";
-    const footer = "</pre></body></html>";
-    const blob = new Blob(['\ufeff' + header + text + footer], { type: 'application/msword' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'Physics_Question_Paper.doc';
-    a.click();
-    URL.revokeObjectURL(url);
   }
 
   function copyText() {

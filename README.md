@@ -10,14 +10,12 @@
   <style>
     :root {
       --bg-main: #090d16;
-      --panel-bg: rgba(18, 24, 38, 0.85);
+      --panel-bg: rgba(18, 24, 38, 0.9);
       --card-border: rgba(255, 255, 255, 0.08);
       --primary: #38bdf8;
       --primary-hover: #0ea5e9;
       --primary-glow: rgba(56, 189, 248, 0.15);
       --success: #10b981;
-      --success-hover: #059669;
-      --danger: #ef4444;
       --text-main: #f1f5f9;
       --text-muted: #94a3b8;
       --btn-secondary: rgba(255, 255, 255, 0.06);
@@ -30,45 +28,59 @@
       padding: 0;
     }
 
-    body {
-      font-family: 'Inter', 'Noto Sans Bengali', 'Segoe UI', sans-serif;
+    html, body {
+      width: 100%;
+      min-height: 100vh;
       background-color: var(--bg-main);
       color: var(--text-main);
-      min-height: 100vh;
-      padding: 20px;
+      font-family: 'Inter', 'Noto Sans Bengali', 'Segoe UI', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body {
+      padding: 16px;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      justify-content: center;
+      align-items: flex-start;
       background-image: 
         radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.05) 0%, transparent 40%),
         radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.04) 0%, transparent 40%);
     }
 
+    /* Fixed 2-Column Balanced Grid Layout */
     .container {
       width: 100%;
-      max-width: 1300px;
+      max-width: 1400px;
+      margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr 360px;
-      gap: 20px;
+      grid-template-columns: minmax(0, 1fr) 380px;
+      gap: 16px;
+      align-items: stretch;
     }
 
-    @media (max-width: 950px) {
-      .container { grid-template-columns: 1fr; }
-      body { padding: 12px; }
+    /* Mobile / Small Portrait Layout */
+    @media (max-width: 850px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      body {
+        padding: 10px;
+      }
     }
 
-    /* Glass Cards */
+    /* Glass Panels */
     .glass-panel {
       background: var(--panel-bg);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--card-border);
       border-radius: 16px;
-      padding: 20px;
+      padding: 16px;
       box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
+      min-width: 0; /* Prevents overflow */
     }
 
     /* Header */
@@ -77,7 +89,7 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
       padding-bottom: 8px;
       border-bottom: 1px solid var(--card-border);
     }
@@ -89,27 +101,26 @@
     }
 
     .logo-icon {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       background: linear-gradient(135deg, #38bdf8 0%, #6366f1 100%);
-      border-radius: 10px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
     }
 
     h1 {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: #fff;
-      letter-spacing: -0.01em;
     }
 
     .toolbar {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
     }
 
@@ -117,16 +128,15 @@
     .btn {
       font-family: inherit;
       border: none;
-      padding: 8px 14px;
+      padding: 7px 12px;
       border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
-      font-size: 0.86rem;
+      font-size: 0.84rem;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      letter-spacing: 0.01em;
+      gap: 5px;
     }
 
     .btn:active {
@@ -137,22 +147,18 @@
       background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
       color: #ffffff;
       border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
     }
     .btn-mcq:hover {
       background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
-      box-shadow: 0 6px 16px rgba(2, 132, 199, 0.4);
     }
 
     .btn-save {
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: #ffffff;
       border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
     }
     .btn-save:hover {
       background: linear-gradient(135deg, #059669 0%, #047857 100%);
-      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
     }
 
     .btn-secondary {
@@ -162,7 +168,6 @@
     }
     .btn-secondary:hover {
       background: var(--btn-secondary-hover);
-      border-color: rgba(255, 255, 255, 0.2);
     }
 
     .btn-danger-hover:hover {
@@ -171,15 +176,16 @@
       border-color: rgba(239, 68, 68, 0.3);
     }
 
-    /* Editor */
+    /* Editor Box */
     .editor-wrapper {
-      position: relative;
       width: 100%;
+      flex: 1;
+      display: flex;
     }
 
     textarea {
       width: 100%;
-      height: 500px;
+      height: 520px;
       background: #060911;
       color: #f8fafc;
       border: 1px solid var(--card-border);
@@ -200,10 +206,9 @@
 
     textarea::placeholder {
       color: #475569;
-      font-weight: 400;
     }
 
-    /* Custom Scrollbar */
+    /* Custom Scrollbars */
     textarea::-webkit-scrollbar, .symbol-grid::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -211,9 +216,6 @@
     textarea::-webkit-scrollbar-thumb, .symbol-grid::-webkit-scrollbar-thumb {
       background: rgba(255, 255, 255, 0.15);
       border-radius: 10px;
-    }
-    textarea::-webkit-scrollbar-track, .symbol-grid::-webkit-scrollbar-track {
-      background: transparent;
     }
 
     /* Status Bar */
@@ -223,7 +225,6 @@
       align-items: center;
       font-size: 0.82rem;
       color: var(--text-muted);
-      padding: 0 4px;
     }
 
     .status-pill {
@@ -242,7 +243,6 @@
       height: 6px;
       background: #10b981;
       border-radius: 50%;
-      box-shadow: 0 0 8px #10b981;
     }
 
     /* Tabs */
@@ -261,7 +261,7 @@
       background: transparent;
       border: none;
       color: var(--text-muted);
-      padding: 7px 10px;
+      padding: 7px 8px;
       border-radius: 7px;
       cursor: pointer;
       font-size: 0.82rem;
@@ -278,17 +278,16 @@
     .tab-btn.active {
       background: rgba(255, 255, 255, 0.1);
       color: var(--primary);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
-    /* Keyboard Grid */
+    /* Symbol Grid */
     .symbol-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
       gap: 6px;
-      max-height: 465px;
+      height: 480px;
       overflow-y: auto;
-      padding: 2px;
+      padding-right: 2px;
     }
 
     .sym-btn {
@@ -303,7 +302,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.15s ease;
     }
 
     .sym-btn:hover {
@@ -311,7 +310,6 @@
       color: #090d16;
       border-color: var(--primary);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
       font-weight: bold;
     }
 
@@ -323,6 +321,7 @@
 <body>
 
 <div class="container">
+  <!-- Left Side: Editor -->
   <div class="glass-panel">
     <div class="header">
       <div class="logo-badge">
@@ -354,10 +353,10 @@
         <div class="dot"></div>
         <span id="saveStatus">অটো-সেভ সক্রিয়</span>
       </div>
-      <span></span>
     </div>
   </div>
 
+  <!-- Right Side: Symbols Keyboard -->
   <div class="glass-panel">
     <div class="tabs">
       <button class="tab-btn active" onclick="switchTab('greek', this)">Greek</button>
@@ -467,12 +466,11 @@
     saveStatus.innerText = 'ড্রাফট সেভ আছে';
   }
 
-  // ফোল্ডার / ইন্টারনাল স্টোরেজ সিলেক্টর নিশ্চিত করার সেভ ফাংশন
+  // Internal Storage Save
   async function saveToDevice() {
     const text = editor.value;
     if (!text.trim()) return alert('সেভ করার জন্য কোনো লেখা নেই!');
 
-    // ১. Desktop File System Access API (কম্পিউটারে সরাসরি Save As ফোল্ডার সিলেক্ট ডায়ালগ খুলবে)
     if (window.showSaveFilePicker) {
       try {
         const handle = await window.showSaveFilePicker({
@@ -488,11 +486,10 @@
         saveStatus.innerText = 'স্টোরেজে সেভ সম্পন্ন!';
         return;
       } catch (err) {
-        if (err.name === 'AbortError') return; // ইউজার ক্যানসেল করলে কিছু করার দরকার নেই
+        if (err.name === 'AbortError') return;
       }
     }
 
-    // ২. মোবাইল/ট্যাবলেট Native System Share/Storage Selector (অ্যান্ড্রয়েড/ট্যাবলেটে ফাইল ম্যানেজার ও কাঙ্ক্ষিত ফোল্ডার চয়েস আসবে)
     const file = new File(['\ufeff' + text], 'Physics_Question_Paper.txt', { type: 'text/plain;charset=utf-8' });
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       try {
@@ -508,7 +505,6 @@
       }
     }
 
-    // ৩. ফলব্যাক স্ট্যান্ডার্ড ডাউনলোড
     const blob = new Blob(['\ufeff' + text], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');

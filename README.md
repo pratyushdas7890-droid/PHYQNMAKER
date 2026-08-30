@@ -10,12 +10,14 @@
   <style>
     :root {
       --bg-main: #090d16;
-      --panel-bg: rgba(18, 24, 38, 0.9);
+      --panel-bg: rgba(18, 24, 38, 0.85);
       --card-border: rgba(255, 255, 255, 0.08);
       --primary: #38bdf8;
       --primary-hover: #0ea5e9;
       --primary-glow: rgba(56, 189, 248, 0.15);
       --success: #10b981;
+      --success-hover: #059669;
+      --danger: #ef4444;
       --text-main: #f1f5f9;
       --text-muted: #94a3b8;
       --btn-secondary: rgba(255, 255, 255, 0.06);
@@ -28,59 +30,45 @@
       padding: 0;
     }
 
-    html, body {
-      width: 100%;
-      min-height: 100vh;
+    body {
+      font-family: 'Inter', 'Noto Sans Bengali', 'Segoe UI', sans-serif;
       background-color: var(--bg-main);
       color: var(--text-main);
-      font-family: 'Inter', 'Noto Sans Bengali', 'Segoe UI', sans-serif;
-      overflow-x: hidden;
-    }
-
-    body {
-      padding: 16px;
+      min-height: 100vh;
+      padding: 20px;
       display: flex;
-      justify-content: center;
-      align-items: flex-start;
+      flex-direction: column;
+      align-items: center;
       background-image: 
         radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.05) 0%, transparent 40%),
         radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.04) 0%, transparent 40%);
     }
 
-    /* Fixed 2-Column Balanced Grid Layout */
     .container {
       width: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
+      max-width: 1300px;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 380px;
-      gap: 16px;
-      align-items: stretch;
+      grid-template-columns: 1fr 360px;
+      gap: 20px;
     }
 
-    /* Mobile / Small Portrait Layout */
-    @media (max-width: 850px) {
-      .container {
-        grid-template-columns: 1fr;
-      }
-      body {
-        padding: 10px;
-      }
+    @media (max-width: 950px) {
+      .container { grid-template-columns: 1fr; }
+      body { padding: 12px; }
     }
 
-    /* Glass Panels */
+    /* Glass Cards */
     .glass-panel {
       background: var(--panel-bg);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--card-border);
       border-radius: 16px;
-      padding: 16px;
+      padding: 20px;
       box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      min-width: 0; /* Prevents overflow */
+      gap: 14px;
     }
 
     /* Header */
@@ -89,7 +77,7 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
       padding-bottom: 8px;
       border-bottom: 1px solid var(--card-border);
     }
@@ -101,26 +89,27 @@
     }
 
     .logo-icon {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       background: linear-gradient(135deg, #38bdf8 0%, #6366f1 100%);
-      border-radius: 8px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
     }
 
     h1 {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 700;
       color: #fff;
+      letter-spacing: -0.01em;
     }
 
     .toolbar {
       display: flex;
-      gap: 6px;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
@@ -128,15 +117,16 @@
     .btn {
       font-family: inherit;
       border: none;
-      padding: 7px 12px;
+      padding: 8px 14px;
       border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
-      font-size: 0.84rem;
+      font-size: 0.86rem;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
+      letter-spacing: 0.01em;
     }
 
     .btn:active {
@@ -147,18 +137,22 @@
       background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
       color: #ffffff;
       border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
     }
     .btn-mcq:hover {
       background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+      box-shadow: 0 6px 16px rgba(2, 132, 199, 0.4);
     }
 
     .btn-save {
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: #ffffff;
       border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
     }
     .btn-save:hover {
       background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
     }
 
     .btn-secondary {
@@ -168,6 +162,7 @@
     }
     .btn-secondary:hover {
       background: var(--btn-secondary-hover);
+      border-color: rgba(255, 255, 255, 0.2);
     }
 
     .btn-danger-hover:hover {
@@ -176,16 +171,15 @@
       border-color: rgba(239, 68, 68, 0.3);
     }
 
-    /* Editor Box */
+    /* Editor */
     .editor-wrapper {
+      position: relative;
       width: 100%;
-      flex: 1;
-      display: flex;
     }
 
     textarea {
       width: 100%;
-      height: 520px;
+      height: 500px;
       background: #060911;
       color: #f8fafc;
       border: 1px solid var(--card-border);
@@ -206,9 +200,10 @@
 
     textarea::placeholder {
       color: #475569;
+      font-weight: 400;
     }
 
-    /* Custom Scrollbars */
+    /* Custom Scrollbar */
     textarea::-webkit-scrollbar, .symbol-grid::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -216,6 +211,9 @@
     textarea::-webkit-scrollbar-thumb, .symbol-grid::-webkit-scrollbar-thumb {
       background: rgba(255, 255, 255, 0.15);
       border-radius: 10px;
+    }
+    textarea::-webkit-scrollbar-track, .symbol-grid::-webkit-scrollbar-track {
+      background: transparent;
     }
 
     /* Status Bar */
@@ -225,6 +223,7 @@
       align-items: center;
       font-size: 0.82rem;
       color: var(--text-muted);
+      padding: 0 4px;
     }
 
     .status-pill {
@@ -243,6 +242,7 @@
       height: 6px;
       background: #10b981;
       border-radius: 50%;
+      box-shadow: 0 0 8px #10b981;
     }
 
     /* Tabs */
@@ -261,7 +261,7 @@
       background: transparent;
       border: none;
       color: var(--text-muted);
-      padding: 7px 8px;
+      padding: 7px 10px;
       border-radius: 7px;
       cursor: pointer;
       font-size: 0.82rem;
@@ -278,16 +278,17 @@
     .tab-btn.active {
       background: rgba(255, 255, 255, 0.1);
       color: var(--primary);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
-    /* Symbol Grid */
+    /* Keyboard Grid */
     .symbol-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
       gap: 6px;
-      height: 480px;
+      max-height: 465px;
       overflow-y: auto;
-      padding-right: 2px;
+      padding: 2px;
     }
 
     .sym-btn {
@@ -302,7 +303,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.15s ease;
+      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .sym-btn:hover {
@@ -310,6 +311,7 @@
       color: #090d16;
       border-color: var(--primary);
       transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
       font-weight: bold;
     }
 
@@ -321,7 +323,6 @@
 <body>
 
 <div class="container">
-  <!-- Left Side: Editor -->
   <div class="glass-panel">
     <div class="header">
       <div class="logo-badge">
@@ -330,16 +331,16 @@
       </div>
       <div class="toolbar">
         <button class="btn btn-mcq" onclick="insertMCQ()">
-          <span>➕</span> MCQ
+          <span>➕</span> + MCQ
         </button>
         <button class="btn btn-save" onclick="saveToDevice()">
-          <span>💾</span> SAVE
+          <span>💾</span> সেভ করুন
         </button>
         <button class="btn btn-secondary" onclick="copyText()">
-          <span>📋</span> COPY
+          <span>📋</span> কপি
         </button>
         <button class="btn btn-secondary btn-danger-hover" onclick="clearText()">
-          <span>🗑️</span> DELETE ALL
+          <span>🗑️</span> মুছুন
         </button>
       </div>
     </div>
@@ -353,10 +354,10 @@
         <div class="dot"></div>
         <span id="saveStatus">অটো-সেভ সক্রিয়</span>
       </div>
+      <span>কার্সরের স্থানে সিম্বল যুক্ত হবে</span>
     </div>
   </div>
 
-  <!-- Right Side: Symbols Keyboard -->
   <div class="glass-panel">
     <div class="tabs">
       <button class="tab-btn active" onclick="switchTab('greek', this)">Greek</button>
@@ -427,6 +428,7 @@
     renderSymbols(cat);
   }
 
+  // কার্সর যেখানে আছে ঠিক সেখানেই চিহ্ন বসবে
   function insertSymbol(sym) {
     const start = editor.selectionStart;
     const end = editor.selectionEnd;
@@ -437,6 +439,7 @@
     localStorage.setItem('physics_draft_text', editor.value);
   }
 
+  // অটো-ইনক্রিমেন্ট নম্বর ক্যালকুলেশন
   function getNextQuestionNumber(text) {
     if (!text) return 1;
     const matches = [...text.matchAll(/(?:^|\n)\s*(\d+)\./g)];
@@ -445,6 +448,7 @@
     return nums.length > 0 ? Math.max(...nums) + 1 : 1;
   }
 
+  // নিচে ক্রমানুসারে নতুন ফাঁকা MCQ যুক্ত করা
   function insertMCQ() {
     const currentText = editor.value.trimEnd();
     const nextNum = getNextQuestionNumber(currentText);
@@ -456,6 +460,7 @@
     const newBlock = questionHead + optionsBlock;
     editor.value = currentText + newBlock;
     
+    // কার্সর সরাসরি নতুন প্রশ্নের নম্বরের ঠিক পাশে নিয়ে যাওয়া
     const targetCursorPos = currentText.length + questionHead.length;
     editor.selectionStart = editor.selectionEnd = targetCursorPos;
     editor.focus();
@@ -471,7 +476,7 @@
     const text = editor.value;
     if (!text.trim()) return alert('সেভ করার জন্য কোনো লেখা নেই!');
 
-    if (window.showSaveFilePicker) {
+    if ('showSaveFilePicker' in window) {
       try {
         const handle = await window.showSaveFilePicker({
           suggestedName: 'Physics_Question_Paper.txt',
@@ -483,21 +488,6 @@
         const writable = await handle.createWritable();
         await writable.write(text);
         await writable.close();
-        saveStatus.innerText = 'স্টোরেজে সেভ সম্পন্ন!';
-        return;
-      } catch (err) {
-        if (err.name === 'AbortError') return;
-      }
-    }
-
-    const file = new File(['\ufeff' + text], 'Physics_Question_Paper.txt', { type: 'text/plain;charset=utf-8' });
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      try {
-        await navigator.share({
-          files: [file],
-          title: 'Physics Question Paper',
-          text: 'Physics Question Paper'
-        });
         saveStatus.innerText = 'স্টোরেজে সেভ সম্পন্ন!';
         return;
       } catch (err) {

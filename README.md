@@ -428,7 +428,6 @@
     renderSymbols(cat);
   }
 
-  // কার্সর যেখানে আছে ঠিক সেখানেই চিহ্ন বসবে
   function insertSymbol(sym) {
     const start = editor.selectionStart;
     const end = editor.selectionEnd;
@@ -439,7 +438,6 @@
     localStorage.setItem('physics_draft_text', editor.value);
   }
 
-  // অটো-ইনক্রিমেন্ট নম্বর ক্যালকুলেশন
   function getNextQuestionNumber(text) {
     if (!text) return 1;
     const matches = [...text.matchAll(/(?:^|\n)\s*(\d+)\./g)];
@@ -448,7 +446,6 @@
     return nums.length > 0 ? Math.max(...nums) + 1 : 1;
   }
 
-  // নিচে ক্রমানুসারে নতুন ফাঁকা MCQ যুক্ত করা
   function insertMCQ() {
     const currentText = editor.value.trimEnd();
     const nextNum = getNextQuestionNumber(currentText);
@@ -460,7 +457,6 @@
     const newBlock = questionHead + optionsBlock;
     editor.value = currentText + newBlock;
     
-    // কার্সর সরাসরি নতুন প্রশ্নের নম্বরের ঠিক পাশে নিয়ে যাওয়া
     const targetCursorPos = currentText.length + questionHead.length;
     editor.selectionStart = editor.selectionEnd = targetCursorPos;
     editor.focus();
@@ -471,12 +467,13 @@
     saveStatus.innerText = 'ড্রাফট সেভ আছে';
   }
 
-  // Internal Storage Save
+  // ফোল্ডার / ইন্টারনাল স্টোরেজ সিলেক্টর নিশ্চিত করার সেভ ফাংশন
   async function saveToDevice() {
     const text = editor.value;
     if (!text.trim()) return alert('সেভ করার জন্য কোনো লেখা নেই!');
 
-    if ('showSaveFilePicker' in window) {
+    // ১. Desktop File System Access API (কম্পিউটারে সরাসরি Save As ফোল্ডার সিলেক্ট ডায়ালগ খুলবে)
+    if (window.showSaveFilePicker) {
       try {
         const handle = await window.showSaveFilePicker({
           suggestedName: 'Physics_Question_Paper.txt',
@@ -491,10 +488,27 @@
         saveStatus.innerText = 'স্টোরেজে সেভ সম্পন্ন!';
         return;
       } catch (err) {
+        if (err.name === 'AbortError') return; // ইউজার ক্যানসেল করলে কিছু করার দরকার নেই
+      }
+    }
+
+    // ২. মোবাইল/ট্যাবলেট Native System Share/Storage Selector (অ্যান্ড্রয়েড/ট্যাবলেটে ফাইল ম্যানেজার ও কাঙ্ক্ষিত ফোল্ডার চয়েস আসবে)
+    const file = new File(['\ufeff' + text], 'Physics_Question_Paper.txt', { type: 'text/plain;charset=utf-8' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({
+          files: [file],
+          title: 'Physics Question Paper',
+          text: 'Physics Question Paper'
+        });
+        saveStatus.innerText = 'স্টোরেজে সেভ সম্পন্ন!';
+        return;
+      } catch (err) {
         if (err.name === 'AbortError') return;
       }
     }
 
+    // ৩. ফলব্যাক স্ট্যান্ডার্ড ডাউনলোড
     const blob = new Blob(['\ufeff' + text], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');

@@ -49,28 +49,28 @@
       position: relative;
     }
 
-    /* ১. গ্লাস টপ হেডার বার */
+    /* ১. অটো-অ্যাডাপ্টিভ শীর্ষ কমান্ড বার */
     .top-bar {
       background: var(--panel-bg);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--glass-border);
-      padding: 10px 16px;
+      padding: clamp(6px, 1.2vh, 12px) clamp(10px, 2vw, 24px);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: clamp(6px, 1.5vw, 14px);
       flex-shrink: 0;
       z-index: 20;
       box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
     }
 
     .brand-title {
-      font-size: 1.05rem;
+      font-size: clamp(0.85rem, 1.4vw + 0.4rem, 1.15rem);
       font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       background: linear-gradient(135deg, #38bdf8, #818cf8);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -78,29 +78,32 @@
     }
 
     .brand-icon {
-      font-size: 1.25rem;
+      font-size: clamp(1rem, 1.6vw, 1.35rem);
       -webkit-text-fill-color: initial;
       filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.5));
     }
 
     .action-group {
       display: flex;
-      gap: 8px;
+      gap: clamp(4px, 0.8vw, 10px);
       align-items: center;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
+    .action-group::-webkit-scrollbar { display: none; }
 
     .action-btn {
       font-family: inherit;
       border: none;
       outline: none;
-      font-size: 0.82rem;
+      font-size: clamp(0.72rem, 0.9vw + 0.3rem, 0.88rem);
       font-weight: 600;
-      padding: 7px 14px;
+      padding: clamp(5px, 0.9vh, 9px) clamp(8px, 1.2vw, 16px);
       border-radius: 8px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       white-space: nowrap;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
@@ -119,17 +122,29 @@
     .btn-clear { background: rgba(244, 63, 94, 0.12); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.25); }
     .btn-clear:hover { background: rgba(244, 63, 94, 0.25); color: #fff; }
 
-    /* ২. ওয়ার্কস্পেস */
+    /* ২. ইউনিভার্সাল ফ্লুইড ওয়ার্কস্পেস */
     .workspace {
       flex: 1;
       display: grid;
-      grid-template-columns: 1fr 410px;
-      gap: 12px;
-      padding: 12px;
+      padding: clamp(6px, 1.2vw, 16px);
+      gap: clamp(6px, 1.2vw, 16px);
       overflow: hidden;
+      max-width: 1800px;
+      width: 100%;
+      margin: 0 auto;
     }
 
-    @media (max-width: 920px) {
+    /* স্ক্রিন সাইজ অনুযায়ী গ্রিড অ্যাডজাস্টমেন্ট */
+    /* ট্যাবলেট ল্যান্ডস্কেপ ও পিসি/ল্যাপটপ (> 850px) */
+    @media (min-width: 851px) {
+      .workspace {
+        grid-template-columns: 1fr clamp(320px, 34vw, 480px);
+        grid-template-rows: 1fr;
+      }
+    }
+
+    /* মোবাইল ও পোর্ট্রেট ট্যাবলেট (<= 850px) */
+    @media (max-width: 850px) {
       .workspace {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr auto;
@@ -142,12 +157,13 @@
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--glass-border);
-      border-radius: 14px;
+      border-radius: clamp(10px, 1.5vw, 16px);
       display: flex;
       flex-direction: column;
       overflow: hidden;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       transition: border-color 0.2s;
+      min-height: 0;
     }
 
     .editor-card:focus-within {
@@ -158,28 +174,31 @@
     textarea {
       flex: 1;
       width: 100%;
+      height: 100%;
       background: transparent;
       color: #f8fafc;
       border: none;
       outline: none;
-      padding: 18px;
-      font-size: 1.15rem;
-      line-height: 1.85;
+      padding: clamp(10px, 1.8vw, 22px);
+      font-size: clamp(0.95rem, 1.1vw + 0.4rem, 1.22rem);
+      line-height: 1.8;
       font-family: 'Noto Sans Bengali', 'Cambria Math', 'Fira Code', sans-serif;
       resize: none;
+      overflow-y: auto;
     }
 
     textarea::placeholder { color: #475569; }
 
     .editor-status {
-      background: rgba(10, 15, 29, 0.8);
+      background: rgba(10, 15, 29, 0.85);
       border-top: 1px solid var(--glass-border);
-      padding: 8px 14px;
-      font-size: 0.78rem;
+      padding: clamp(5px, 0.8vh, 10px) clamp(10px, 1.5vw, 18px);
+      font-size: clamp(0.7rem, 0.8vw + 0.2rem, 0.84rem);
       color: var(--text-muted);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-shrink: 0;
     }
 
     .auto-save-pill {
@@ -189,41 +208,43 @@
       color: #34d399;
     }
     .pulse-dot {
-      width: 7px;
-      height: 7px;
+      width: clamp(6px, 0.8vw, 8px);
+      height: clamp(6px, 0.8vw, 8px);
       background: #10b981;
       border-radius: 50%;
       box-shadow: 0 0 8px #10b981;
     }
 
-    /* ৪. সাইন্টিফিক সিম্বল ম্যাট্রিক্স কিপ্যাড */
+    /* ৪. ফ্লুইড সাইন্টিফিক কিপ্যাড */
     .keypad-card {
       background: var(--panel-bg);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--glass-border);
-      border-radius: 14px;
+      border-radius: clamp(10px, 1.5vw, 16px);
       display: flex;
       flex-direction: column;
-      padding: 12px;
-      gap: 10px;
+      padding: clamp(8px, 1.2vw, 14px);
+      gap: clamp(6px, 1vh, 10px);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      min-height: 0;
     }
 
     .cat-selector {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 5px;
+      gap: clamp(3px, 0.6vw, 6px);
+      flex-shrink: 0;
     }
 
     .cat-btn {
       background: var(--card-bg);
       border: 1px solid var(--glass-border);
       color: var(--text-muted);
-      padding: 7px 4px;
-      font-size: 0.74rem;
+      padding: clamp(5px, 0.9vh, 8px) 2px;
+      font-size: clamp(0.65rem, 0.8vw + 0.15rem, 0.82rem);
       font-weight: 600;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
       text-align: center;
       transition: all 0.2s ease;
@@ -241,34 +262,37 @@
       box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
     }
 
+    /* স্বয়ংক্রিয় অ্যাডাপ্টিভ সিম্বল ম্যাট্রিক্স */
     .symbol-matrix {
       flex: 1;
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      grid-auto-rows: 46px;
-      gap: 6px;
+      /* স্ক্রিনের জায়গা বুঝে বাটন নিজে থেকে বড়/ছোট ও সংখ্যা ঠিক করে নেবে */
+      grid-template-columns: repeat(auto-fill, minmax(clamp(40px, 6.2vw, 56px), 1fr));
+      grid-auto-rows: clamp(38px, 5.2vh, 52px);
+      gap: clamp(4px, 0.8vw, 8px);
       background: rgba(10, 15, 29, 0.7);
-      padding: 10px;
+      padding: clamp(6px, 1vw, 12px);
       border-radius: 10px;
       border: 1px solid var(--glass-border);
       align-content: start;
-      max-height: 290px;
       overflow-y: auto;
+      scrollbar-width: thin;
     }
 
-    @media (min-width: 921px) {
+    @media (max-width: 850px) {
       .symbol-matrix {
-        max-height: none;
-        grid-template-columns: repeat(5, 1fr);
-        grid-auto-rows: 50px;
+        max-height: clamp(170px, 32vh, 260px);
       }
     }
+
+    .symbol-matrix::-webkit-scrollbar { width: 4px; }
+    .symbol-matrix::-webkit-scrollbar-thumb { background: var(--key-hover); border-radius: 4px; }
 
     .matrix-key {
       background: var(--key-bg);
       border: 1px solid var(--glass-border);
       color: #fff;
-      font-size: 1.18rem;
+      font-size: clamp(1rem, 1.3vw + 0.4rem, 1.28rem);
       border-radius: 8px;
       cursor: pointer;
       display: flex;
@@ -293,26 +317,27 @@
       box-shadow: 0 0 12px var(--cyan-glow);
     }
 
-    /* ৫. প্রিমিয়াম গ্লাস পপআপ / টোস্ট নোটিফিকেশন */
+    /* ৫. রেসপনসিভ টোস্ট পপআপ */
     .toast-container {
       position: fixed;
-      top: 75px;
+      top: clamp(55px, 9vh, 85px);
       left: 50%;
       transform: translateX(-50%) translateY(-20px);
-      background: rgba(15, 23, 42, 0.92);
+      background: rgba(15, 23, 42, 0.94);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
       border: 1px solid var(--glass-border);
-      padding: 10px 20px;
+      padding: clamp(6px, 1.2vh, 12px) clamp(14px, 2.5vw, 24px);
       border-radius: 999px;
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(56, 189, 248, 0.2);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       z-index: 1000;
       pointer-events: none;
       opacity: 0;
       visibility: hidden;
+      max-width: 90vw;
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
@@ -323,20 +348,21 @@
     }
 
     .toast-icon {
-      font-size: 1.2rem;
+      font-size: clamp(1rem, 1.4vw, 1.3rem);
       display: flex;
       align-items: center;
-      justify-content: center;
     }
 
     .toast-message {
-      font-size: 0.9rem;
+      font-size: clamp(0.78rem, 1vw + 0.2rem, 0.95rem);
       font-weight: 600;
       color: #f8fafc;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    /* কাস্টম কনফার্মেশন মোডাল */
+    /* কনফার্মেশন মোডাল */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -362,8 +388,8 @@
       background: #0f172a;
       border: 1px solid var(--glass-border);
       border-radius: 16px;
-      padding: 22px;
-      max-width: 360px;
+      padding: clamp(16px, 2.5vw, 24px);
+      max-width: min(380px, 90vw);
       width: 100%;
       text-align: center;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 25px rgba(244, 63, 94, 0.15);
@@ -372,10 +398,9 @@
     }
 
     .modal-overlay.open .modal-box { transform: scale(1); }
-
-    .modal-icon { font-size: 2.2rem; margin-bottom: 8px; }
-    .modal-title { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
-    .modal-desc { font-size: 0.86rem; color: var(--text-muted); margin-bottom: 18px; line-height: 1.5; }
+    .modal-icon { font-size: clamp(1.8rem, 3vw, 2.4rem); margin-bottom: 8px; }
+    .modal-title { font-size: clamp(0.95rem, 1.4vw, 1.15rem); font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .modal-desc { font-size: clamp(0.78rem, 1vw, 0.88rem); color: var(--text-muted); margin-bottom: 18px; line-height: 1.5; }
     
     .modal-actions {
       display: flex;
@@ -384,18 +409,16 @@
     }
     .modal-btn {
       flex: 1;
-      padding: 9px;
+      padding: clamp(7px, 1.2vh, 10px);
       border-radius: 8px;
       border: none;
-      font-size: 0.88rem;
+      font-size: clamp(0.78rem, 1vw, 0.9rem);
       font-weight: 600;
       cursor: pointer;
       font-family: inherit;
-      transition: opacity 0.15s;
     }
     .modal-btn.cancel { background: #334155; color: #fff; }
     .modal-btn.danger { background: #e11d48; color: #fff; }
-    .modal-btn:hover { opacity: 0.9; }
   </style>
 </head>
 <body>
@@ -434,12 +457,12 @@
     </div>
   </header>
 
-  <!-- মূল ওয়ার্কস্পেস -->
+  <!-- ইউনিভার্সাল ফ্লুইড ওয়ার্কস্পেস -->
   <main class="workspace">
     
     <!-- ডিজিটাল খাতা (Editor) -->
     <section class="editor-card">
-      <textarea id="editor" placeholder="Type question"></textarea>
+      <textarea id="editor" placeholder="এখানে সরাসরি প্রশ্নপত্র লিখুন... কিপ্যাডের বাটনে ক্লিক করলে কীবোর্ড সক্রিয় রেখেই সিম্বল বসে যাবে।"></textarea>
       
       <div class="editor-status">
         <div class="auto-save-pill">
@@ -534,7 +557,7 @@
       }, 2400);
     }
 
-    // ম্যাট্রিক্স রেন্ডার করা
+    // ম্যাট্রিক্স রেন্ডার করা (অটো-ফিট গ্রিড)
     function renderMatrix(cat) {
       matrix.innerHTML = '';
       symbolSets[cat].forEach(sym => {
@@ -546,7 +569,7 @@
       });
     }
 
-    // কীবোর্ড বজায় রেখে সিম্বল বসানো
+    // কীবোর্ড ওপেন রেখে ইনসার্ট
     function preventBlurAndInsert(e, sym) {
       e.preventDefault();
       if (document.activeElement !== editor) {
@@ -558,7 +581,7 @@
       editor.dispatchEvent(new Event('input'));
     }
 
-    // কীবোর্ড বজায় রেখে ট্যাব বদলানো
+    // কীবোর্ড বজায় রেখে ট্যাব পরিবর্তন
     function preventBlurAndSwitch(e, cat) {
       e.preventDefault();
       document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
@@ -580,7 +603,7 @@
       return nums.length > 0 ? Math.max(...nums) + 1 : 1;
     }
 
-    // MCQ ব্লক তৈরি করা
+    // MCQ ব্লক তৈরি
     function insertMCQ() {
       const currentText = editor.value.trimEnd();
       const nextNum = getNextQuestionNumber(currentText);
@@ -651,7 +674,7 @@
       });
     }
 
-    // মোডাল হ্যান্ডলার
+    // ক্লিয়ার মোডাল ওপেন/ক্লোজ
     function openClearModal() {
       if (!editor.value.trim()) {
         showToast('খাতা ইতিমধ্যে খালি আছে!', 'ℹ️', 'var(--cyan-glow)');
